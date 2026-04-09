@@ -13,6 +13,8 @@
   var AD_VIDEOS = [
     "/add_campaign/ad-campaign-01.mp4",
     "/add_campaign/ad-campaign-02.mp4",
+    "/add_campaign/ad-campaign-03.mp4",
+    "/add_campaign/ad-campaign-04.mp4",
   ];
 
   function shuffle(arr) {
@@ -123,7 +125,7 @@
     var btnYes = document.getElementById("advertisement-yes");
     var btnDecline = document.getElementById("advertisement-decline");
     var statusEl = document.getElementById("advertisement-load-status");
-    if (!modal || !stepIntro || !stepVideo || !video || !continueBtn || !btnYes ) return;
+    if (!modal || !stepIntro || !stepVideo || !video || !continueBtn || !btnYes || !btnDecline) return;
 
     if (sessionStorage.getItem(MODAL_DONE_KEY) || sessionStorage.getItem(SKIP_ADVERTISEMENT_KEY)) {
       return;
