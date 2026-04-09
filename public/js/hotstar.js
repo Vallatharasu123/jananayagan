@@ -244,13 +244,38 @@
       if (gateStatus) gateStatus.textContent = t || "";
     }
 
+    var GATE_BTN_DOWNLOAD = "Download";
+
     function lockGateOpen() {
       gateOpen.disabled = true;
     }
 
     function unlockGateOpen() {
+      gateOpen.textContent = GATE_BTN_DOWNLOAD;
       gateOpen.disabled = false;
       gateOpen.focus();
+    }
+
+    /** Seconds remaining on the same button label; at 0 switch label to Download and enable. */
+    function syncGateDownloadCountdown() {
+      if (gateModal.hidden) return;
+      if (!gateVideo.src) return;
+      var d = gateVideo.duration;
+      if (!d || !isFinite(d)) {
+        setGateStatus("");
+        lockGateOpen();
+        gateOpen.textContent = "Loading…";
+        return;
+      }
+      var left = Math.max(0, Math.ceil(d - gateVideo.currentTime));
+      if (gateVideo.ended || left <= 0) {
+        setGateStatus("");
+        unlockGateOpen();
+        return;
+      }
+      lockGateOpen();
+      gateOpen.textContent = "Unlocks in " + left + "s";
+      setGateStatus("");
     }
 
     function closeGate() {
@@ -262,6 +287,8 @@
       pendingUrl = null;
       queue = [];
       qIdx = 0;
+      lockGateOpen();
+      gateOpen.textContent = GATE_BTN_DOWNLOAD;
     }
 
     function tryLoadGateVideo() {
@@ -272,8 +299,9 @@
       }
       var url = queue[qIdx];
       qIdx += 1;
-      setGateStatus("Loading…");
+      setGateStatus("");
       lockGateOpen();
+      gateOpen.textContent = "Loading…";
 
       gateVideo.onerror = function () {
         tryLoadGateVideo();
@@ -284,9 +312,10 @@
         playAdvertisementUnmuted(
           gateVideo,
           setGateStatus,
-          "Playing with sound. Download unlocks when playback ends.",
-          "Tap play on the video for sound. Download unlocks when playback ends."
+          "",
+          "Tap play on the video for sound."
         );
+        syncGateDownloadCountdown();
       };
 
       gateVideo.preload = "auto";
@@ -304,7 +333,9 @@
       tryLoadGateVideo();
     }
 
-    gateVideo.addEventListener("ended", unlockGateOpen);
+    gateVideo.addEventListener("timeupdate", syncGateDownloadCountdown);
+    gateVideo.addEventListener("loadedmetadata", syncGateDownloadCountdown);
+    gateVideo.addEventListener("ended", syncGateDownloadCountdown);
 
     gateOpen.addEventListener("click", function () {
       if (!pendingUrl) return;
