@@ -9,20 +9,12 @@
   var ADVERTISEMENT_OPEN_MS = 2000;
   var NOTICE_SHOW_MS = 9000;
 
+  /* Short ASCII names so Linux/git (e.g. Render) can checkout; NAME_MAX paths. */
   var AD_VIDEOS = [
-    "/add_campaign/AQOUfcuGKBnMRBaa6tIvtaRcDKaOBq3RwvNbaOjwJS983fkGmwhuEaHqCT3IDXbkebrNE8Iwbep2s75gkfoHeIg-z-d9hHP0.mp4",
-    "/add_campaign/" +
-      encodeURIComponent(
-        "234 candidates- 117 Women 117 Men Equal representation. Equal respect. 100No alliance. No seat-s.mp4"
-      ),
-    "/add_campaign/" +
-      encodeURIComponent(
-        "அச்சமற்ற தலைவர் 📈🐯🔥.Follow @naamtamilar_army for more 🔥-Delhis air quality nears severe l.mp4"
-      ),
-    "/add_campaign/" +
-      encodeURIComponent(
-        "நீங்க மதுக்கடைகள மூடுங்க.. என்னோட ஓட்டு, எங்க அப்பா, அம்மா எல்லாரோட ஓட்டும் உங்களுக்கு தான்.ஜல்ல.mp4"
-      ),
+    "/add_campaign/ad-campaign-01.mp4",
+    "/add_campaign/ad-campaign-02.mp4",
+    "/add_campaign/ad-campaign-03.mp4",
+    "/add_campaign/ad-campaign-04.mp4",
   ];
 
   function shuffle(arr) {
